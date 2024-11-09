@@ -1,0 +1,4 @@
+~/.zshrc
+~/.zprofile
+~/.config/alacritty/alacritty.toml
+~/.config/nvim/init.lua
