@@ -40,7 +40,7 @@ git push origin main
 
 #### Build
 
-The `setup.py` script reads the `config_files.txt` file and copy the files to `src/` directory with hashed filepath.
+The `setup.py` script reads the `config_files_list.txt` file and copy the files to `src/` directory with hashed filepath.
 
 Then, it creates a tarball of the `src/` directory and gzip it and remove the `src/` directory.
 
