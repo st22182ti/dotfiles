@@ -15,7 +15,7 @@ make install
 
 ## Apply local config changes
 
-1. Add your local config file's path to the `config_files.txt` file.
+1. Add your local config file's path to the `config_files_list.txt` file.
    If you just changed existing config files, you can skip this step.
 
 2. Run:
