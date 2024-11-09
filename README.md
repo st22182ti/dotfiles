@@ -2,8 +2,6 @@
 
 - python version 3.x
 - make
-- tar
-- gzip
 
 ## Install
 
@@ -32,7 +30,7 @@ git push origin main
 ## File structure
 
 - `config_files_list.txt`: List of config files to be managed.
-- `config_files.tar.gz`: Tarball of the config files.
+- `config_files/`: Directory to store the config files.
 - `setup.py`: Python script to install & manage the config files.
 - `Makefile`: Makefile to run the setup.py script.
 
@@ -40,10 +38,8 @@ git push origin main
 
 #### Build
 
-The `setup.py` script reads the `config_files_list.txt` file and copy the files to `src/` directory with hashed filepath.
-
-Then, it creates a tarball of the `src/` directory and gzip it and remove the `src/` directory.
+The `setup.py` script reads the `config_files_list.txt` file and copy the files to the `config_files/` directory.
 
 #### Install
 
-The `setup.py` script extracts the tarball and gzip and copy the files to the original path.
+The `setup.py` script reads the `config_files_list.txt` file and copy the files in `config_files` directory to the correct location.

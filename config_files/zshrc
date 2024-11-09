@@ -1,0 +1,17 @@
+zstyle :compinstall filename '/home/mt/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+export QSYS_ROOTDIR="/home/mt/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
+
+
+
+export PS1="[%n@%m %~]%# "
+
+alias vim=nvim
+
+export PATH="$PATH:/home/mt/.yarn/bin"
+
+# Created by `pipx` on 2024-11-05 03:23:11
+export PATH="$PATH:/home/mt/.local/bin"
