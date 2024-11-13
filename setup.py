@@ -20,8 +20,16 @@ def build():
     if not os.path.exists("./config_files"):
         os.mkdir("./config_files")
 
+    print("Collected files:")
     for file in files:
         subprocess.run(["cp", "-r", file, dotfile_path(file)])
+        print(f"    - {dotfile_path(file)}")
+
+    print("\nUpload to GitHub:")
+    print("--------------------")
+    print("  git add -A")
+    print("  git commit -m 'Updated config files'")
+    print("  git push origin main")
 
 
 def install():

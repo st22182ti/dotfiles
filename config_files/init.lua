@@ -2,11 +2,13 @@ vim.scriptencoding = "utf-8"
 vim.opt.number = true
 
 -- indent width
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 0
 vim.opt.tabstop = 4
-vim.softtabstop = 4
+vim.softtabstop = -1
 vim.opt.smartindent = true
 vim.opt.expandtab = true
+vim.opt.cindent = true
+vim.opt.autoindent = true
 
 -- search
 vim.opt.ignorecase = false
@@ -128,6 +130,28 @@ require("lazy").setup({
 		"github/copilot.vim",
 		lazy = false,
 	},
+
+	-- file explorer
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("nvim-tree").setup({
+				sort = { sorter = "case_sensitive" },
+				view = {
+					width = 30,
+					side = "left",
+				},
+				filters = {
+					dotfiles = true,
+				},
+			})
+		end,
+	},
 })
 
 require("mason").setup()
@@ -137,7 +161,12 @@ local lspconfig = require("lspconfig")
 local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup_handlers({
 	function(server_name)
-		lspconfig[server_name].setup({})
+		lspconfig[server_name].setup({
+			on_attach = function(client, bufnr)
+				client.server_capabilities.documentFormattingProvidor = false
+				client.server_capabilities.documentRangeFormattingProvidor = false
+			end,
+		})
 	end,
 })
 
@@ -203,20 +232,17 @@ for type, icon in pairs(signs) do
 end
 
 -- formatter
+require("conform").formatters.clang_format = {
+	command = "clang-format",
+	args = {
+		"--style={BasedOnStyle: google, IndentWidth: 4, ColumnLimit: 80, AlignTrailingComments: true}",
+	},
+}
 require("conform").setup({
 	formatters_by_ft = {
-		c = {
-			command = "clang-format",
-			args = {
-				"--style={BasedOnStyle: Google, IndentWidth: 4, UseTab: Never}",
-			},
-		},
-		cpp = {
-			command = "clang-format",
-			args = {
-				"--style=LLVM",
-			},
-		},
+		c = { "clang_format" },
+		cpp = { "clang_format" },
+		--]]
 		sh = { "shfmt" },
 		lua = { "stylua" },
 
@@ -226,8 +252,14 @@ require("conform").setup({
 
 		vhdl = { "vsg" },
 
-		["_"] = { "prettier" },
+		html = { "prettier" },
+		css = { "prettier" },
+		json = { "prettier" },
 	},
+	default_format_opts = {
+		lsp_format = false,
+	},
+	format_on_save = true,
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -236,3 +268,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		require("conform").format({ bufnr = args.buf })
 	end,
 })
+
+-- launch file explorer
+vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })

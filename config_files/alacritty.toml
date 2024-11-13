@@ -2,4 +2,4 @@
 normal = { family = "Cousine Nerd Font", style="Regular" }
 
 [window]
-opacity = 0.9
+opacity = 1
