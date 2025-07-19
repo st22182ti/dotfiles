@@ -28,6 +28,11 @@ vim.opt.termguicolors = true
 vim.opt.pumheight = 20
 vim.opt.signcolumn = "yes"
 
+-- floating LSP messages
+vim.keymap.set("n", "gd", function()
+	vim.diagnostic.open_float()
+end, { desc = "Show diagnostic message" })
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -91,8 +96,8 @@ require("lazy").setup({
 	-- lsp
 	{
 		"neovim/nvim-lspconfig",
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		lazy = false,
 	},
 
@@ -112,63 +117,59 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		opts = {},
-	},
-	{
-		"nvimtools/none-ls.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-
-	-- auto pair
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
-	},
-
-	-- copilot
-	{
-		"github/copilot.vim",
-		lazy = false,
-	},
-
-	-- file explorer
-	{
-		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		lazy = false,
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
+		{
+			"nvimtools/none-ls.nvim",
+			dependencies = { "nvim-lua/plenary.nvim" },
 		},
-		config = function()
-			require("nvim-tree").setup({
-				sort = { sorter = "case_sensitive" },
-				view = {
-					width = 30,
-					side = "left",
-				},
-				filters = {
-					dotfiles = true,
-				},
-			})
-		end,
+
+		-- auto pair
+		{
+			"windwp/nvim-autopairs",
+			event = "InsertEnter",
+			config = true,
+		},
+
+		-- copilot
+		{
+			"github/copilot.vim",
+			lazy = false,
+		},
+
+		-- file explorer
+		{
+			"nvim-tree/nvim-tree.lua",
+			version = "*",
+			lazy = false,
+			dependencies = {
+				"nvim-tree/nvim-web-devicons",
+			},
+			config = function()
+				require("nvim-tree").setup({
+					sort = { sorter = "case_sensitive" },
+					view = {
+						width = 30,
+						side = "left",
+					},
+					filters = {
+						dotfiles = true,
+					},
+				})
+			end,
+		},
+
+		-- TODO hilighting
+		{
+			"folke/todo-comments.nvim",
+			dependencies = { "nvim-lua/plenary.nvim" },
+			opts = {
+				signs = true,
+			},
+		},
 	},
 })
 
 require("mason").setup()
 require("mason-lspconfig").setup()
-
-local lspconfig = require("lspconfig")
-local mason_lspconfig = require("mason-lspconfig")
-mason_lspconfig.setup_handlers({
-	function(server_name)
-		lspconfig[server_name].setup({
-			on_attach = function(client, bufnr)
-				client.server_capabilities.documentFormattingProvidor = false
-				client.server_capabilities.documentRangeFormattingProvidor = false
-			end,
-		})
-	end,
-})
 
 capabilities = require("cmp_nvim_lsp").default_capabilities()
 

@@ -15,3 +15,16 @@ export PATH="$PATH:/home/mt/.yarn/bin"
 
 # Created by `pipx` on 2024-11-05 03:23:11
 export PATH="$PATH:/home/mt/.local/bin"
+
+# My arias for convenience
+alias proxy="source /home/mt/proxy.sh"
+alias proxyoff="export http_proxy='';https_proxy='';ftp_proxy='';HTTP_PROXY=''"
+alias mdpreview="/home/mt/scripts/pandoc/mdpreview.sh"
+
+# neovim
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
